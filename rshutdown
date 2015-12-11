@@ -1,0 +1,14 @@
+hosts="10.0.0.4 10.0.0.5"
+[ -n "$hosts" ] ||  {
+	hosts=`nmap -oG - 10.0.0.3-50 |awk  '/22\/open/ {print $2}'`
+}
+myips=`sudo  /sbin/ifconfig -a|awk '/inet /{print $2}'`
+for h in $hosts;do 
+	for ip in $myips ;do
+		[ $h == $ip ] &&  continue 2
+	done
+	ssh $h 'sudo shutdown -t 30  "URGENT total power loss. Shutdown in 30 seconds"'
+done
+sleep 3
+shutdown -t 30  "URGENT total power loss. Shutdown in 30 seconds"
+
