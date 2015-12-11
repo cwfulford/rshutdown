@@ -1,0 +1,80 @@
+.TH RSHUTDOWN 8l "10th December 2015" r1.2
+.SH NAME
+.B rshutdown
+- shuts down hosts on local network 
+.SH SYNOPSIS
+\fBrshutdown\fR 
+\fI<host_name>\fR
+|\fB-V\fR
+.br
+.SH AVAILABILITY
+.B rshutdown
+is a Bourne shell script which should work equally well on all versions of UNIX
+and Linux.
+.SH DESCRIPTION
+.B rshutdown
+is invoke by Reillo's "upsmon" to shutdown hosts following a power outage.
+.SH OPTIONS
+.TP 5
+.B -c 
+.I <config_file>
+.br
+The default \fIconfiguration file\fR is \fB/usr/local/etc/rshutdown.cf\fR. An 
+alternative configuration file may be set with the \fB-c\fR option on the 
+command line.
+.TP
+.B -d 
+sets the script to debug mode (ie. runs with the shell option -x)
+.TP 5
+.B -l
+turns on logging using the 
+.B syslog
+facility. This is particularly useful where statistics are being compiled
+for presentation to the client, see 
+.IR report .
+.TP 5
+.B -v 
+Sets the script to verbose mode. Each significant action will be reported
+on standard out.
+.TP 5
+.B -z
+Use \fIgzip\fR to compress the tar file and  append \fI.gz\fR
+to the rshutdown filename. The \fB-z\fR option is meaningless when a remote
+system is being rshutdownd as the \fItar\fR file is always compressed prior
+to transmission across the network.
+.TP 5
+.B -V
+prints version details to standard out and exits.
+.SH EXAMPLES
+.ft CW
+.nf
+5 0 * * * su fulford -c "/usr/local/etc/rshutdown -l albert"
+.fi
+.ft R
+.LP
+The above is an extract from a root 
+.B crontab 
+file and illustrates the typical use of the script in practice. All the
+local file systems on the host "albert" will be backed up to device (or
+file) nominated in the default configuration file 
+\fI/usr/local/etc/rshutdown.cf\fR. Initiation and completion of the script
+will be logged using the \fIsyslog\fR facility.
+.LP
+Note that the script is executed with an ordinary user id. This is to
+facilitate remote access where root logins are denied.
+.B Sudo 
+is used within the script where root access is required.
+.LP
+.BR NB .
+The hostname 
+.I albert
+is being resolved locally and does not require a fully qualified domain.
+.SH BUGS
+If the script auto detects hosts with open ssh ports it will attempt 
+connections which will not complete sufficiently quickly to fulfill it's
+purpose.
+.SH FILES
+.IR rshutdown.cf .
+.SH SEE ALSO
+.SH AUTHOR
+Clifford W Fulford, City Linux. Contact fulford@citylinux.com or +44 (0)793 572 8612.

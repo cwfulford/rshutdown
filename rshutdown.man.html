@@ -1,0 +1,211 @@
+
+<p><a href="#heading1">NAME</a><br/>
+<a href="#heading2">SYNOPSIS</a><br/>
+<a href="#heading3">AVAILABILITY</a><br/>
+<a href="#heading4">DESCRIPTION</a><br/>
+<a href="#heading5">OPTIONS</a><br/>
+<a href="#heading6">EXAMPLES</a><br/>
+<a href="#heading7">BUGS</a><br/>
+<a href="#heading8">FILES</a><br/>
+<a href="#heading9">SEE ALSO</a><br/>
+<a href="#heading10">AUTHOR</a><br/>
+
+</p>
+<hr/>
+
+
+<h2 id="heading1">NAME
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b><a href="./scripts.php?script=rshutdown">rshutdown</a></b>
+- shuts down hosts on local network</p>
+
+<h2 id="heading2">SYNOPSIS
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b><a href="./scripts.php?script=rshutdown">rshutdown</a></b>
+<i>&lt;host_name&gt;</i> |<b>-V</b></p>
+
+<h2 id="heading3">AVAILABILITY
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b><a href="./scripts.php?script=rshutdown">rshutdown</a></b>
+is a Bourne shell script which should work equally well on
+all versions of UNIX and Linux.</p>
+
+<h2 id="heading4">DESCRIPTION
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b><a href="./scripts.php?script=rshutdown">rshutdown</a></b>
+is invoke by Reillo&rsquo;s &quot;upsmon&quot; to shutdown
+hosts following a power outage.</p>
+
+<h2 id="heading5">OPTIONS
+</h2>
+
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<colgroup><col width="11%"></col>
+<col width="3%"></col>
+<col width="4%" class="center"></col>
+<col width="20%"></col>
+<col width="62%"></col>
+</colgroup>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p style="margin-top: 1em"><b>-c</b></p></td>
+<td></td>
+<td>
+
+
+<p style="margin-top: 1em"><i>&lt;config_file&gt;</i></p></td>
+<td>
+</td></tr>
+</table>
+
+<p style="margin-left:18%;">The default <i>configuration
+file</i> is <b>/usr/local/etc/<a href="./scripts.php?script=rshutdown.cf">rshutdown.cf</a></b>. An
+alternative configuration file may be set with the <b>-c</b>
+option on the command line.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<colgroup><col width="11%"></col>
+<col width="3%"></col>
+<col width="4%" class="center"></col>
+<col width="82%"></col>
+</colgroup>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p style="margin-top: 1em"><b>-d</b></p></td>
+<td></td>
+<td>
+
+
+<p style="margin-top: 1em">sets the script to debug mode
+(ie. runs with the shell option -x)</p></td></tr>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p><b>-l</b></p></td>
+<td></td>
+<td>
+
+
+<p>turns on logging using the <b>syslog</b> facility. This
+is particularly useful where statistics are being compiled
+for presentation to the client, see <i>report</i>.</p></td></tr>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p><b>-v</b></p></td>
+<td></td>
+<td>
+
+
+<p>Sets the script to verbose mode. Each significant action
+will be reported on standard out.</p></td></tr>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p><b>-z</b></p></td>
+<td></td>
+<td>
+
+
+<p>Use <i>gzip</i> to compress the tar file and append
+<i>.gz</i> to the <a href="./scripts.php?script=rshutdown">rshutdown</a> filename. The <b>-z</b> option
+is meaningless when a remote system is being <a href="./scripts.php?script=rshutdown">rshutdown</a>d as
+the <i>tar</i> file is always compressed prior to
+transmission across the network.</p></td></tr>
+<tr valign="top" align="left">
+<td></td>
+<td>
+
+
+<p><b>-V</b></p></td>
+<td></td>
+<td>
+
+
+<p>prints version details to standard out and exits.</p></td></tr>
+</table>
+
+<h2 id="heading6">EXAMPLES
+</h2>
+
+
+<pre style="margin-left:11%; margin-top: 1em">5 0 * * * su fulford -c &quot;/usr/local/etc/<a href="./scripts.php?script=rshutdown">rshutdown</a> -l albert&quot;</pre>
+
+
+<p style="margin-left:11%; margin-top: 1em">The above is an
+extract from a root <b>crontab</b> file and illustrates the
+typical use of the script in practice. All the local file
+systems on the host &quot;albert&quot; will be backed up to
+device (or file) nominated in the default configuration file
+<i>/usr/local/etc/<a href="./scripts.php?script=rshutdown.cf">rshutdown.cf</a></i>. Initiation and
+completion of the script will be logged using the
+<i>syslog</i> facility.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Note that the
+script is executed with an ordinary user id. This is to
+facilitate remote access where root logins are denied.
+<b>Sudo</b> is used within the script where root access is
+required.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>NB</b>. The
+hostname <i>albert</i> is being resolved locally and does
+not require a fully qualified domain.</p>
+
+<h2 id="heading7">BUGS
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">If the script
+auto detects hosts with open ssh ports it will attempt
+connections which will not complete sufficiently quickly to
+fulfill it&rsquo;s purpose.</p>
+
+<h2 id="heading8">FILES
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><i><a href="./scripts.php?script=rshutdown.cf">rshutdown.cf</a></i>.</p>
+
+<h2 id="heading9">SEE ALSO
+</h2>
+
+
+<h2 id="heading10">AUTHOR
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Clifford W
+Fulford, <a href="http://www.citylinux.com"
+title="Go to the City Linux homepage">
+City Linux
+</a>. Contact fulford@citylinux.com or +44
+(0)793 572 8612.</p>
+<hr/>
